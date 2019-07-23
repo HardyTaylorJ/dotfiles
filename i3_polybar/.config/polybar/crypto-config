@@ -1,0 +1,21 @@
+[general]
+base_currency = USD
+display = price
+
+[bitcoin]
+icon = BTC
+
+[bitcoin-cash]
+icon = | BCH
+
+[litecoin]
+icon = | LTC
+
+[ethereum]
+icon = | ETH
+
+[verge]
+icon = | XVG
+
+[dogecoin]
+icon = | DOGE

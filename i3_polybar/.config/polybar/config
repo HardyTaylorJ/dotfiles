@@ -1,0 +1,259 @@
+;=====================================================
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+[colors]
+transparent = #00000000
+background = ${xrdb:color0}
+background-alt = ${xrdb:color1}
+foreground = ${xrdb:color15}
+foreground-alt = ${xrdb:color14}
+black = ${xrdb:color0}
+dgrey = ${xrdb:color8} 
+dred = ${xrdb:color1}
+red = ${xrdb:color9}
+dgreen = ${xrdb:color2}
+green = ${xrdb:color10}
+dyellow = ${xrdb:color3}
+yellow = ${xrdb:color11}
+dblue = ${xrdb:color4}
+blue = ${xrdb:color12}
+dmagenta = ${xrdb:color5}
+magenta = ${xrdb:color13}
+dcyan = ${xrdb:color6}
+cyan = ${xrdb:color14}
+lgrey = ${xrdb:color7}
+white = ${xrdb:color15}
+
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+[bar/top]
+height = 28
+offset-x = 0
+offset-y = 0
+locale = en_US.UTF-8
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+font-0 = San Francisco Display:size=9:weight=Regular
+font-1 = FontAwesome:size=10;0
+font-2 = San Francisco Display:size=10:weight=bold
+font-3 = San Francisco Display:size=10:weight=Regular
+
+modules-left = i3 updates mpd
+modules-center = time
+modules-right = crypto backlight battery
+
+tray-position = right
+tray-padding = 4
+tray-background = ${colors.background}
+tray-transparent = false
+tray-offset-x = 0
+tray-detached = false
+
+underline-size = 3
+underline-color = ${colors.blue}
+overline-size = 3
+border-bottom-size = 1
+border-bottom-color = ${colors.blue}
+
+spacing = 1
+padding-left = 0
+padding-right = 0
+module-margin-left = 3
+module-margin-right = 3
+
+fixed-center = true
+
+[module/crypto]
+type = custom/script
+interval = 300
+exec = /home/taylor/.config/polybar/crypto.py
+
+[module/i3]
+type = internal/i3
+strip-wsnumbers = true
+
+format = <label-state> <label-mode>
+
+label-mode = %mode%
+label-mode-foreground = ${colors.background}
+label-mode-background = ${colors.dgreen}
+label-mode-padding = 1
+
+label-focused-padding = 1
+label-focused-font = 3
+label-focused-background = ${colors.background-alt}
+label-focused-foreground = ${colors.foreground}
+label-focused-underline = ${colors.green}
+
+
+label-unfocused-padding = 1
+label-unfocused-font = 4
+label-unfocused-backgound = ${colors.background}
+label-unfocused-foreground = ${colors.foreground}
+
+label-urgent-foreground = ${colors.dred}
+label-urgent-padding = 1
+label-urgent-font = 3
+
+label-visible-foreground = ${colors.foreground}
+label-visible-underline = ${colors.green}
+label-visible-padding = 1
+label-visible-font = 3
+
+[module/updates]
+type = custom/script
+exec = ~/.bin/updates.sh
+exec-if = "ping -q -w 2 -c 1 xxx.xx.xxx.xxx > /dev/null"
+interval = 1200
+format-background = ${colors.dred}
+format-foreground = ${colors.background}
+format-padding = 2
+
+click-right = urxvt -e update &
+
+[module/backlight]
+type = internal/backlight
+card = intel_backlight
+format = <label>
+format-padding = 2
+label =   %percentage%
+
+[module/mpd]
+type = internal/mpd
+
+host = 127.0.0.1
+port = 6600
+
+interval = 2
+format-online = <toggle> <label-song>
+
+label-song = %artist% - %title%
+label-song-maxlen     = 50
+label-song-ellipsis   = true
+
+label-offline = 🎜 mpd is offline
+
+icon-play = 
+icon-pause = 
+icon-stop = ⏹
+icon-prev = ⏮
+icon-next = ⏭
+icon-seekb = ⏪
+icon-seekf = ⏩
+icon-random = 🔀
+icon-repeat = 🔁
+icon-repeatone = 🔂
+
+toggle-on-foreground = #ff
+toggle-off-foreground = #55
+
+bar-progress-width = 45
+bar-progress-indicator = |
+bar-progress-fill = ─
+bar-progress-empty = ─
+
+[module/volumeintel]
+type = internal/volume
+format-volume = <ramp-volume> <label-volume>
+master-mixer = Master
+label-muted =  muted
+
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+format-volume-padding = 2
+mapping = true
+format-muted-padding = 2
+
+[module/volumeasus]
+type = internal/volume
+format-volume = <label-volume>
+master-mixer = PCM
+label-muted = 
+
+label-volume =  %percentage%
+format-volume-padding = 2
+mapping = true
+
+[module/temperature]
+type = custom/script
+exec = $HOME/.bin/temperature.sh
+interval = 10
+label =   %output%
+format-padding = 2
+
+[module/date]
+type = internal/date
+interval = 2
+
+date = "%{A3:gsimplecal:}      %d.%m.%Y%{A}"
+date-alt = "    %A, %d. %B"
+
+time = "%I : %M %P"
+time-alt = "%H:%M:%S"
+
+format-padding = 30
+label = "%{O-60} %date%"
+format-foreground = #ececec
+format-background = ${colors.background}
+
+[module/time]
+type = internal/date
+interval = 2
+
+date = "    %d.%m.%Y"
+date-alt = "    %A, %d. %B"
+
+time = "%I:%M %p"
+time-alt = "%H:%M:%S"
+
+format-padding = 2
+label = "%time%"
+label-font = 1
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 99
+
+format-charging = <animation-charging> <label-charging>
+
+format-discharging = <ramp-capacity> <label-discharging>
+label-discharging = %percentage% (%time%)
+
+format-full-prefix = "  "
+format-full-padding = 2
+format-charging-padding = 2
+format-discharging-padding = 2
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-framerate = 750
+
+[module/memory]
+type = internal/memory
+label = "%{A3:urxvt -e htop:}  %gb_used%%{A}"
+format-padding = 2
+
+; vim:ft=dosini
