@@ -1208,7 +1208,7 @@ myKeys conf = let
     , ("M-S-q"                  , addName "Quit XMonad"                     $ confirmPrompt hotPromptTheme "Quit XMonad" $ io (exitWith ExitSuccess))
     , ("M-x"                    , addName "Lock screen"                     $ spawn "xset s activate")
     , ("M-<F4>"                    , addName "Print Screen"                    $ return ())
-  --, ("M-F1"                   , addName "Show Keybindings"                $ return ())
+    , ("M-h"                   , addName "Show Keybindings"                $ return ())
     ] ^++^
 
     -----------------------------------------------------------------------
